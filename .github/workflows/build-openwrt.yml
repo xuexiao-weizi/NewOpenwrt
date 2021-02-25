@@ -237,12 +237,9 @@ jobs:
 
     - name: 编译N1机型时,打包（N1、微加云、贝壳云、我家云、S9xxx）固件
       run: |
-        if [ ${{matrix.target}} == "Lede_phicomm_n1" -o ${{matrix.target}} == "Project_phicomm_n1" ];then
-         cp openwrt/bin/targets/armvirt/*/*.tar.gz reform/openwrt
-         cd reform
-         sudo ./gen_openwrt -s 1024 -d -k latest
-         
-         devices=("phicomm-n1" "rk3328" "s9xxx" "vplus")
+        cd openwrt	        if [ ${{matrix.target}} == "Lede_phicomm_n1" -o ${{matrix.target}} == "Project_phicomm_n1" ];then
+        if [[ ${{matrix.target}} =~ (Lede_phicomm_n1|Project_phicomm_n1) ]]; then	         cp openwrt/bin/targets/armvirt/*/*.tar.gz reform/openwrt
+          source common/common.sh && Diy_n1
          cd out
          for x in ${devices[*]}; do
            cd $x
