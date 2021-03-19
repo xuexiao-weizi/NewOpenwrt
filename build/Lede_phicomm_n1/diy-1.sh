@@ -7,9 +7,19 @@
 # 想要什么插件就单独的拉取什么插件就好，或者告诉我，我把插件放我的插件包就行了
 # 软件包地址：https://github.com/281677160/openwrt-package
 # 拉取插件请看《各种命令的简单介绍》第4条、第5条说明,不管大神还是新手请认真的看看,再次强调请不要一下子就拉取别人一堆插件的插件包,容易造成编译错误的
+rm -rf package/smartdns-le
+
+svn co https://github.com/garypang13/openwrt-packages/trunk/smartdns-le package/smartdns-le
+
 git clone  infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git package/luci-theme-infinityfreedom
+
+
 cd openwrt
 sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=@TARGET_armvirt_64/g' package/lean/luci-app-cpufreq/Makefile
 cat package/lean/luci-app-cpufreq/Makefile
 sed -i 's/entry({"admin", "services", "cpufreq"}, cbi("cpufreq"), _("CPU Freq"), 900).dependent=false/entry({"admin", "system", "cpufreq"}, cbi("cpufreq"), _("CPU Freq"), 9).dependent=false/g' package/lean/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 cat package/lean/luci-app-cpufreq/luasrc/controller/cpufreq.lua
+
+find package/*/ feeds/*/ -maxdepth 2 -path "*luci-app-bypass/Makefile" | xargs -i sed -i 's/shadowsocksr-libev-ssr-redir/shadowsocksr-libev-alt/g' {}
+find package/*/ feeds/*/ -maxdepth 2 -path "*luci-app-bypass/Makefile" | xargs -i sed -i 's/shadowsocksr-libev-ssr-server/shadowsocksr-libev-server/g' {}
+find package/*/ feeds/*/ -maxdepth 2 -path "*luci-app-bypass/Makefile" | xargs -i sed -i 's/smartdns-le/smartdns/g' {}
